@@ -1,1 +1,1 @@
-# EADME-Generator_byNihal
+# README-Generator_byNihal
