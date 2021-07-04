@@ -1,5 +1,6 @@
 var inquirer = require('inquirer');
 var fs = require("fs");
+var readMeGenerator = require("./utils/readMeGeneratore")
 
 let questions = [
     {
@@ -51,16 +52,17 @@ let questions = [
 
 // TODO: Create a function to write README file
 function writeToFile(fileName, data) {
-    return fs.writeFileSync(path.join(process.cwd(), fileName), data);
+    return fs.writeFileSync(path.join(fileName), data);
 }
 
 // TODO: Crexsate a function to initialize app
 function init() {
-    inquirer.prompt(questions).then((inquirerResponses) => {
-        console.log('Generating README...');
-        writeToFile('README.md', generateMarkdown({ ...inquirerResponses }));
-      });
-}
+    inquirer.prompt(questions).then(function(response) {
+        var content = readMeGenerator(response);
+        fs.writeToFile("./README.md", content, function(error) {
+            if (error) throw error 
+        });
+});
 
 // Function call to initialize app
 init();
