@@ -1,8 +1,7 @@
 var inquirer = require('inquirer');
-var readMeGenerator = require("./ReadMeGenerator");
 var fs = require("fs");
 
-const questions = [
+let questions = [
     {
         type: "input",
         message: "What is name of your project?",
@@ -18,9 +17,11 @@ const questions = [
         message: "What license you choose for your application?",
         name: "license",
         choices: [
-            "GVL-GP",
+            "GVL-GPL",
             "MIT",
-            ""
+            "APACHE 2.0",
+            "BSD 3",
+            "None of the above",
         ]
     },
     {
@@ -33,6 +34,7 @@ const questions = [
         type: "input",
         message: "What test you run on Node.js?",
         name: "test",
+        default: 'npm test',
     },
     {
         type: "input",
@@ -45,14 +47,20 @@ const questions = [
         name: "github",
     },
     
-
 ];
 
 // TODO: Create a function to write README file
-function writeToFile(fileName, data) {}
+function writeToFile(fileName, data) {
+    return fs.writeFileSync(path.join(process.cwd(), fileName), data);
+}
 
-// TODO: Create a function to initialize app
-function init() {}
+// TODO: Crexsate a function to initialize app
+function init() {
+    inquirer.prompt(questions).then((inquirerResponses) => {
+        console.log('Generating README...');
+        writeToFile('README.md', generateMarkdown({ ...inquirerResponses }));
+      });
+}
 
 // Function call to initialize app
 init();
